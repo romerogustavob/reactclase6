@@ -3,9 +3,9 @@ import { addDoc, collection, doc, getDocs, getFirestore, updateDoc } from "fireb
 const CartView = () => {
 
   const order = {
-    buyer: { name: 'Maria', phone: 123, email: 'juan@gmail.com' },
-    items: [ {name: 'mouse', price: 500}, {name: 'teclado', price: 200} ],
-    total: 700
+    buyer: { name: 'Gustavo', phone: 123, email: 'gustavo@gmail.com' },
+    items: [ {id: 3, title: 'Samsung Universe 9', price: 500}, {id:6, title: 'MacBook Pro', price: 1749} ],
+    total: 2249
   }
 
   const orderHandler = () => {

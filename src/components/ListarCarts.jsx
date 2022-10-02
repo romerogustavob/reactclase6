@@ -52,16 +52,16 @@ export const ListarCarts = () => {
           
           <Link className='primary sm' to={'/'}>
             <Button variant="primary" size="sm" type="submit">
-              home page
+              Gus Store
             </Button>
           </Link>
           
           </div>
           <div className="">
           
-          <Link className='secondary sm' to={'/'}>
+          <Link className='secondary sm' to={'/cartview'}>
             <Button variant="secondary" size="sm" type="submit">
-              Finalizar compra</Button>
+              Ver productos Seleccionados</Button>
           </Link>
           
           </div>
