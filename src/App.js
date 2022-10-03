@@ -10,6 +10,7 @@ import Cart from './components/Cart/Cart'
 import { CartContextProvider } from './context/CartContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CartView from './components/CartView/CartView';
+import OrdersView from './components/CartView/OrdersView';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
               <Route path='/item/:id' element={<ItemDetailContainer/>} />
               <Route path='/cart' element={<Cart/>}/>
               <Route path='/cartview' element={<CartView/>}/>
+              <Route path='/orders' element={<OrdersView/>}/>
           </Routes>          
           <br/>
           <PiePagina/>

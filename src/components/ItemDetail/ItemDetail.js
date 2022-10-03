@@ -41,7 +41,7 @@ const ItemDetail = ({item}) => {
             </div>
           
             <Link to={`/cart/`}>            
-              <Button variant="secondary" size="sm">Terminar compra</Button>
+              <Button variant="secondary" size="sm">Mis productos</Button>
             </Link>
             
             </div>

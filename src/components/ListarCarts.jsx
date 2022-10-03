@@ -14,24 +14,25 @@ export const ListarCarts = () => {
         
         carts.map((cart) => (
           
-          <article className="container-sm inline" key={cart.key}>
+          <article className="container-sm inline-block square border border-success p-2" key={cart.key}>
             {console.log(cart)}
             {console.log(cart.item.map(i=>i.title))}
 
-            <div className="">
-            <h3>Titulo:</h3>
-            <h4
-            >{cart.item.map(i=>i.title)}</h4> 
-            
-            <h3>Precio:</h3>
-            <h4>{cart.item.map(i=>i.price)} </h4>
-            <h3>Total:</h3>
-            <h4>{cart.counter}</h4>
-            
+            <div className="m-2">
+              <div>
+                 <b>Nombre: </b>{cart.item.map(i=>i.title)}
+              </div>
+              <div>
+                <b>Precio: </b>{cart.item.map(i=>i.price)}
+              </div>
+              <div>
+                <b>Total: </b>{cart.counter}
+              </div>
+                        
             <div>
-              <button className="button" onClick={() => removeItem(cart)}>
-                Quitar producto
-              </button> 
+              <Button variant="warning" onClick={() => removeItem(cart)}>
+                Quitar
+              </Button> 
             </div>
             
             </div>
@@ -42,29 +43,26 @@ export const ListarCarts = () => {
         <h3 style={{ margin: "5rem" }}>No hay productos...</h3>
       )}
       {carts.length > 0 && (
-        <div>
-          <div>
-          <button className="button" onClick={clear}>
+        <div className="container-sm inline square border border-dark p-2">
+          <div className="d-inline p-2">
+          <Button variant="danger" onClick={clear}>
             Vaciar lista
-          </button>
+          </Button>
           </div>
-          <div className="">
-          
-          <Link className='primary sm' to={'/'}>
-            <Button variant="primary" size="sm" type="submit">
-              Gus Store
-            </Button>
-          </Link>
-          
+          <div className="d-inline p-2">          
+            <Link className='secondary' to={'/cartview'}>
+              <Button variant="success"  type="submit">
+                Finalizar</Button>
+            </Link>          
           </div>
-          <div className="">
-          
-          <Link className='secondary sm' to={'/cartview'}>
-            <Button variant="secondary" size="sm" type="submit">
-              Ver productos Seleccionados</Button>
-          </Link>
-          
+          <div className="d-inline p-2">          
+            <Link className='primary' to={'/'}>
+              <Button variant="primary" type="submit">
+                Ir a Gus Store
+              </Button>
+            </Link>          
           </div>
+          
         </div>
       )}
     </div>

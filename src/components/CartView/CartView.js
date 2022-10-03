@@ -1,10 +1,16 @@
 import { addDoc, collection, doc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
+import { Link } from "react-router-dom";
+import Button from 'react-bootstrap/esm/Button';
+import Swal from "sweetalert2";
+import { useCartContext } from "../../context/CartContext";
 
 const CartView = () => {
+  const { clear } = useCartContext();
 
   const order = {
-    buyer: { name: 'Gustavo', phone: 123, email: 'gustavo@gmail.com' },
-    items: [ {id: 3, title: 'Samsung Universe 9', price: 500}, {id:6, title: 'MacBook Pro', price: 1749} ],
+    buyer: { name: 'Ernesto', phone: 123, email: 'ernesto@gmail.com' },
+    items: [ {id: 4, title: 'Samsung Universe 9', price: 500}, {id:7, title: 'MacBook Pro', price: 1749} ],
+    date: '01-10-2022',
     total: 2249
   }
 
@@ -16,35 +22,23 @@ const CartView = () => {
 
     addDoc(orderCollection, order).then( ({id}) => {
         console.log( {id} );
+        clear();
+        Swal.fire("La orden de pago a sido generada con éxito");
     })
-  }
-
-  const getOrdersHandler = () => {
-    const db = getFirestore()
-    const orderCollection = collection(db, 'orders')
-    getDocs( orderCollection ).then( res => {
-        console.log(
-            res.docs.map( d => ({id: d.id, ...d.data()}) )
-        );
-    })
-  }
-
-  const updateHanlder = () => {
-    const db = getFirestore()
-    const orderCollection = collection(db, 'orders')
-    const orderDoc = doc(orderCollection, "BjkGzewonWKdOaKYIfjo")
-    updateDoc( orderDoc, {
-        price:222,
-        buyer: { name: 'Carlos', phone: 55555, email: 'carlos@gmail.com' },
-    }).then( res => { console.log('res: ' + res) } )
   }
   
   return (
-    <div>
-      <button className="btn" onClick={orderHandler}>Terminar compra</button>
-        <button className="btn" onClick={updateHanlder}>Actualizar orden</button>
-      <div className="m-5">
-        <button className="btn" onClick={getOrdersHandler}>Ver ordenes</button>
+    <div className="container-sm inline">
+      <div className="m-2">
+
+        <Button variant="success" size="sm" onClick={orderHandler} >Terminar compra</Button>
+      </div>     
+        
+      <div className="m-2">
+        {/* <button className="btn" onClick={getOrdersHandler}>Ver ordenes</button> */}
+        <Link to={`/orders`}>            
+          <Button variant="secondary" size="sm">Ver Odenes</Button>
+        </Link>
       </div>
     </div>
   )

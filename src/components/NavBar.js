@@ -22,7 +22,7 @@ const NavBar = (props) => {
           <Nav className="me-auto">
             <Link className='btn btn-dark' to={'/category/smartphones'}>SmartPhones</Link>
             <Link className='btn btn-dark' to={'/category/laptops'}>Laptops</Link>
-            <Link className='btn btn-dark' to={'#ofertas'}>Ofertas</Link>
+            <Link className='btn btn-dark' to={'/orders'}>Ver Ordenes</Link>
     
           </Nav>
           <Link className='btn btn-dark' to={'/cart'}>            
