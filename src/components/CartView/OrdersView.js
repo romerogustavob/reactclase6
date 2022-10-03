@@ -33,6 +33,7 @@ const OrdersView = () => {
     
   return (
     <div>
+      <div className="container-sm inline"><h1>Órdenes de compra</h1></div>
        {orders.length?(
         
         orders.map((order) => (
@@ -63,7 +64,7 @@ const OrdersView = () => {
           
         ))
       ) : (
-        <h3 style={{ margin: "5rem" }}>No hay ordenes...</h3>
+        <h3 style={{ margin: "5rem" }}></h3>
       )} 
     </div>
     
