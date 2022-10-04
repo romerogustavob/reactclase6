@@ -13,7 +13,7 @@ const CartView = () => {
   const [phone, setPhone] = useState(0);
   const [email, setEmail] = useState("");
 
-  const [order, setOrder] = useState([])
+  const [order, setOrder] = useState(null);
 
     const navigate = useNavigate()
 
@@ -28,8 +28,7 @@ const CartView = () => {
                 price: item.item.map(i=>i.price),
               }}),
           date: Date(),
-          total: totalPrice    
-
+          total: totalPrice
         })
         guardarOrder(order)
     }
