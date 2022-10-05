@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 
 
 export const ListarCarts = () => {
-  const { carts, removeItem, actualizarEstado, clear } = useCartContext();
+  const { carts, removeItem, clear } = useCartContext();
 
   return (
     <div className="container">

@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
+import { addDoc, collection, getFirestore, Timestamp } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/Form';
@@ -7,79 +7,79 @@ import { useCartContext } from "../../context/CartContext";
 import { useState } from "react";
 
 const CartView = () => {
+  
   const { carts, totalPrice, clear } = useCartContext();
+  
+  const navigate = useNavigate();
+  const finishOrder = () => {
+    navigate('/')
+  }
 
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState(0);
-  const [email, setEmail] = useState("");
+  const [formData, setFormData] = useState({
+    name:"", phone:"", email:""
+  })
 
-  const [order, setOrder] = useState(null);
+  const handleChange = (e) => {
+    setFormData({ ...formData,[e.target.name]: e.target.value })
+  }
 
-    const navigate = useNavigate()
-
-    const orderHandler = (e) => {
-        e.preventDefault();
-        setOrder({
-          buyer: { "name": name, "phone": phone, "email": email },
-          items: carts.map( item => {
-              return {
-                id: item.item.map(i=>i.id),
-                title: item.item.map(i=>i.title),
-                price: item.item.map(i=>i.price),
-              }}),
-          date: Date(),
-          total: totalPrice
-        })
-        guardarOrder(order)
-    }
-
-    const finishOrder = () => {
-        navigate('/')
-    }
-
-
-    const guardarOrder = (miorden) => {
-
-        console.log('Terminando orden..');
+  const createOrder = (e) => {
+    e.preventDefault(); 
+    let order = {}
+    order.date = Timestamp.fromDate(new Date())
+    order.buyer = formData
+    order.total = totalPrice
     
-        const db = getFirestore()
-        const orderCollection = collection(db, 'orders')
-    
-        addDoc(orderCollection, miorden).then( ({id}) => {
-            console.log( {id} );
-            clear();
-            Swal.fire("La orden de pago a sido generada con éxito");
-            //finishOrder();
-        })
-      
-    }
+    order.items = carts.map(cartItem => {
+        const id = cartItem.item.map(i=>i.id)
+        const title = cartItem.item.map(i=>i.title)
+        const price = cartItem.item.map(i=>i.price)
+        return {id, title, price}
+    })
+
+
+    const db = getFirestore()
+    const orderCollection = collection(db, 'orders')
+    addDoc(orderCollection, order)
+    .then(resp => {
+      clear()
+      console.log("orden de pago nro: "+resp.id)
+      Swal.fire("La orden de pago nro "+resp.id+" ha sido generada con éxito")
+    })
+    .catch(err => console.log(err))
+    .finally(() => { 
+
+        setFormData({
+            name:"", phone:"", email:""
+        })        
+        finishOrder()
+    })
+
+  }
   
   return (
     <div className="container-sm inline border border-dark p-2">
      
-      <Form onSubmit={orderHandler}>
+      <Form onSubmit={createOrder}>
         <Form.Group className="mb-3" controlId="formBasicText">
           <Form.Label>Nombre y Apellido</Form.Label>
         
-          <Form.Control name="name"  variant="outlined" value={name} onChange={(e)=>{e.preventDefault();setName(e.target.value)}}  />
+          <Form.Control name="name" type="name"  variant="outlined" defaultValue={formData.name} onChange={handleChange}/>
     
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPhone">
           <Form.Label>Teléfono</Form.Label>
-          <Form.Control name="phone" variant="outlined" value={phone} onChange={(e)=>{e.preventDefault();setPhone(e.target.value)}}/>
+          <Form.Control name="phone" type="phone" variant="outlined" defaultValue={formData.phone}  onChange={handleChange}/>
           <Form.Text className="text-muted">
             Sin 0 y sin 15
           </Form.Text>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email</Form.Label>
-          <Form.Control name="email" type="email" value={email} variant="outlined" onChange={(e)=>{e.preventDefault(); setEmail(e.target.value)}}/>
+          <Form.Control name="email" type="email" defaultValue={formData.email} variant="outlined" onChange={handleChange}/>
           <Form.Text className="text-muted">
       
           </Form.Text>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
         </Form.Group>
         <Button variant="primary" type="submit">
           Enviar

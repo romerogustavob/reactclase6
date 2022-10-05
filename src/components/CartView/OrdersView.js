@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { addDoc, collection, doc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
+import { collection, doc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
 import Button from 'react-bootstrap/esm/Button';
 
 const OrdersView = () => {
-    const [orders, setOrders]=useState({});
+    const [orders, setOrders]=useState([]);
+
+    const options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric"
+    };
 
     useEffect(() => {
         const db = getFirestore()
@@ -22,7 +31,6 @@ const OrdersView = () => {
     }, [])
 
     const updateHandler = (id) => {
-        //id.preventDefault();
         const db = getFirestore()
         const orderCollection = collection(db, 'orders')
         const orderDoc = doc(orderCollection, id)
@@ -45,11 +53,11 @@ const OrdersView = () => {
               <div className="m-1">
               <div><h4>Orden nro: {order.id}</h4></div>
                 <div><b>Comprador:</b> {order.buyer.name} - email: {order.buyer.email}</div>
-                <div>Fecha: {order.date}</div>
+                <div>Fecha: {order.date.toDate().toLocaleDateString("es", options)}</div>
                 <div>Total: {order.total}</div>
               </div>
                 {order.items.map((item)=>
-                  <div className="square border border-success m-2">
+                  <div key={item.key} className="square border border-success m-2">
                     <div><b>Producto:</b> {item.title}</div>
                     <div>Precio: {item.price}</div>
                   </div>
