@@ -37,7 +37,7 @@ export const CartContextProvider = ({ children }) => {
         return Swal.fire("Ya existe en la lista");
       }
       
-      setTotalPrice(totalPrice + cart.item.map(i=>i.price)[0]);
+      setTotalPrice(totalPrice + parseInt(cart.item.map(i=>i.price)[0]));
       const key = uuid();
       const nuevaCart = { ...cart, key};
       setCarts([...carts, nuevaCart]);
@@ -48,7 +48,7 @@ export const CartContextProvider = ({ children }) => {
   
     const removeItem = (cart) => {
       //const removerTarea = tareas.filter((buscada) => buscada.id !== tarea.id);
-      setTotalPrice(totalPrice - cart.item.map(i=>i.price)[0])
+      setTotalPrice(totalPrice - parseInt(cart.item.map(i=>i.price)[0]))
       const idcart=cart.item.map(i=>i.id)[0];
       const removerItem = carts.filter((ca)=>ca.item.find(i=>i.id!==idcart))
       console.log("removeite"+removerItem)
